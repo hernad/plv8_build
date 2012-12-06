@@ -22,7 +22,7 @@ installed to bin/, lib/, shared/extensions to appropriate locations.
 
 but ... 
 
-   create extension plv8;
+    create extension plv8;
 
 causes server crash :(.
 
