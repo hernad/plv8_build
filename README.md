@@ -50,8 +50,11 @@ Dependency walker reports this strange missing dependencies:
 
 ![crash](https://github.com/hernad/plv8_build/raw/master/img/plv8_crash_dependency.png)
 
+Tested on: Windows XP SP3, 32bit
 
 
 # References
 
-http://www.postgresonline.com/journal/archives/261-Building-PLV8JS-and-PLCoffee-for-Windows-using-MingW64-w64-w32.html
+ - http://www.postgresonline.com/journal/archives/261-Building-PLV8JS-and-PLCoffee-for-Windows-using-MingW64-w64-w32.html
+ - http://code.google.com/p/plv8js/issues/detail?id=29
+
