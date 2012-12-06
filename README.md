@@ -17,14 +17,23 @@ but ...
 causes server crash
 
 
-## install binaries (mingw compiled) postgreonline
+## install binaries (mingw compiled) postgresonline
 
-the same result:
+the same result with binary build provided on postgresonline:
 
-Dependency walker
+ - 32bit plv8/v8 dll binaries (for postgresql 9.2 beta, september 2012)
+ - PostgreSQL 9.2.1
+
+The same result. command:
+ 
+    create extension plv8;
+
+causes server crash.
+
+
+Dependency walker reports this strange missing dependencies:
 
 ![crash](https://github.com/hernad/plv8_build/raw/master/img/plv8_crash_dependency.png)
-
 
 
 
