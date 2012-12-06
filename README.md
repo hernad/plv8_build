@@ -23,7 +23,7 @@ the same result:
 
 Dependency walker
 
-![crash](img/plv8_crash_depencency.png)
+![crash](https://github.com/hernad/plv8_build/raw/master/img/plv8_crash_dependency.png)
 
 
 
