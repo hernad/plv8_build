@@ -2,22 +2,37 @@
 
 Until now, unsuccessfull :(
 
-## my build
+## My build mingw build
 
-I have produced:
+
+## Mingw
+
+I already have installed: gcc 4.6.1
+
+The author (see references) doesn't recommend this msys/mingw version. 
+
+
+I have sucessfully compiled and produced:
 
 v8.dll, v8prepend.dll
 
 plv8.dll
 
+installed to bin/, lib/, shared/extensions to appropriate locations.
+
 but ... 
 
    create extension plv8;
 
-causes server crash
+causes server crash :(.
+
+I have tried with changing PATH variable during link process - the same results.
+
+All of my experiments was on 9.1.6 EnterpriseDB windows installation and the same source code postgersql tree.
 
 
-## install binaries (mingw compiled) postgresonline
+## Install plv8 binaries (mingw compiled) postgresonline
+
 
 the same result with binary build provided on postgresonline:
 
@@ -36,13 +51,6 @@ Dependency walker reports this strange missing dependencies:
 ![crash](https://github.com/hernad/plv8_build/raw/master/img/plv8_crash_dependency.png)
 
 
-
-
-
-
-# Mingw
-
-gcc 4.6.1
 
 # References
 
