@@ -52,9 +52,25 @@ Dependency walker reports this strange missing dependencies:
 
 Tested on: Windows XP SP3, 32bit
 
+# Notes
 
 # References
 
- - http://www.postgresonline.com/journal/archives/261-Building-PLV8JS-and-PLCoffee-for-Windows-using-MingW64-w64-w32.html
- - http://code.google.com/p/plv8js/issues/detail?id=29
+## plv8 build
 
+  - http://www.postgresonline.com/journal/archives/261-Building-PLV8JS-and-PLCoffee-for-Windows-using-MingW64-w64-w32.html
+  - http://code.google.com/p/plv8js/issues/detail?id=29
+
+## v8 build
+
+  - http://evadeflow.com/2011/03/compiling-v8-on-windows-7
+  - http://code.google.com/p/v8/issues/detail?id=1596i
+
+
+## postgresql build ming64
+
+  - [mingw64 9.1 patch](http://archives.postgresql.org/pgsql-hackers/2011-11/txtRibqmPdzfl.txt) 
+
+      patch -p1 < mingw6491.patch
+
+ 
