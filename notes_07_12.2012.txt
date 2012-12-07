@@ -1,0 +1,261 @@
+as postgres user
+
+- libintl
+
+
+postgresql 9.1.6
+
+- without zlib
+
+
+./configure --without-zlib
+
+
+
+mingw32/lib/libintl.dll.a
+msys/bin/msys-intl-8.dll
+
+
+
+c:\ming32\mingw32\bin\../lib/gcc/i686-w64-mingw32/4.5.4/../../../../i686-w64-min
+gw32/include/winsock2.h:13:2: warning: #warning Please include winsock2.h before
+ windows.h
+
+src/include/pg_config_os.h
+
+
+
+#include <windows.h>
+#include <winsock2.h>
+#include <ws2tcpip.h>
+#undef small
+#include <process.h>
+#include <signal.h>
+#include <errno.h>
+#include <direct.h>
+#ifndef __BORLANDC__
+#include <sys/utime.h>                  /* for non-unicode version */
+#endif
+#undef near
+
+
+http://gvsigce.sourceforge.net/wiki/index.php/Compiling_the_C/C%2B%2B_support_libraries
+
+
+nisam skontao postgresql kako da nadje include
+
+na kraju:
+
+$ cp /c/github/dist/include/*.h src/include/port/win32/
+
+
+
+export CFLAGS=-m32
+export CXXFLAGS=$CFLAGS
+export CPPFLAGS=$CFLAGS
+export LDFLAGS=$CFLAGS
+
+
+export PATH=$PATH:$WORKSPACE/dist/bin
+
+
+set PATH=%PATH%:C:\ming32\msys\bin;c:\ming32\msys\local\pgsql\bin;c:\ming32\msys\local\pgsql\lib
+
+9.2.2
+
+pg_ctl
+postgres 
+
+rade
+
+
+$ /c/Python27/scripts/scons.py  mode=release arch=ia32 toolchain=gcc importenv=PATH library=shared I_know_I_should_build_with_GYP=yes
+
+
+
+g++ -m32 -shared -o v8.dll obj\release\accessors.o obj\release\allocation.o obj\release\api.o obj\re
+lease\assembler.o obj\release\ast.o obj\release\atomicops_internals_x86_gcc.o obj\release\bignum-dto
+a.o obj\release\bignum.o obj\release\bootstrapper.o obj\release\builtins.o obj\release\cached-powers
+.o obj\release\checks.o obj\release\circular-queue.o obj\release\code-stubs.o obj\release\codegen.o
+obj\release\compilation-cache.o obj\release\compiler.o obj\release\contexts.o obj\release\conversion
+s.o obj\release\counters.o obj\release\cpu-profiler.o obj\release\data-flow.o obj\release\date.o obj
+\release\dateparser.o obj\release\debug-agent.o obj\release\debug.o obj\release\deoptimizer.o obj\re
+lease\disassembler.o obj\release\diy-fp.o obj\release\dtoa.o obj\release\elements-kind.o obj\release
+\elements.o obj\release\execution.o obj\release\extensions\externalize-string-extension.o obj\releas
+e\extensions\gc-extension.o obj\release\extensions\statistics-extension.o obj\release\factory.o obj\
+release\fast-dtoa.o obj\release\fixed-dtoa.o obj\release\flags.o obj\release\frames.o obj\release\fu
+ll-codegen.o obj\release\func-name-inferrer.o obj\release\gdb-jit.o obj\release\global-handles.o obj
+\release\handles.o obj\release\heap-profiler.o obj\release\heap.o obj\release\hydrogen-instructions.
+o obj\release\hydrogen.o obj\release\ia32\assembler-ia32.o obj\release\ia32\builtins-ia32.o obj\rele
+ase\ia32\code-stubs-ia32.o obj\release\ia32\codegen-ia32.o obj\release\ia32\cpu-ia32.o obj\release\i
+a32\debug-ia32.o obj\release\ia32\deoptimizer-ia32.o obj\release\ia32\disasm-ia32.o obj\release\ia32
+\frames-ia32.o obj\release\ia32\full-codegen-ia32.o obj\release\ia32\ic-ia32.o obj\release\ia32\lith
+ium-codegen-ia32.o obj\release\ia32\lithium-gap-resolver-ia32.o obj\release\ia32\lithium-ia32.o obj\
+release\ia32\macro-assembler-ia32.o obj\release\ia32\regexp-macro-assembler-ia32.o obj\release\ia32\
+stub-cache-ia32.o obj\release\ic.o obj\release\incremental-marking.o obj\release\inspector.o obj\rel
+ease\interface.o obj\release\interpreter-irregexp.o obj\release\isolate.o obj\release\jsregexp.o obj
+\release\lithium-allocator.o obj\release\lithium.o obj\release\liveedit.o obj\release\liveobjectlist
+.o obj\release\log-utils.o obj\release\log.o obj\release\mark-compact.o obj\release\messages.o obj\r
+elease\objects-printer.o obj\release\objects-visiting.o obj\release\objects.o obj\release\once.o obj
+\release\optimizing-compiler-thread.o obj\release\parser.o obj\release\platform-win32.o obj\release\
+preparse-data.o obj\release\preparser.o obj\release\profile-generator.o obj\release\property.o obj\r
+elease\regexp-macro-assembler-irregexp.o obj\release\regexp-macro-assembler.o obj\release\regexp-sta
+ck.o obj\release\rewriter.o obj\release\runtime-profiler.o obj\release\runtime.o obj\release\safepoi
+nt-table.o obj\release\scanner-character-streams.o obj\release\scanner.o obj\release\scopeinfo.o obj
+\release\scopes.o obj\release\serialize.o obj\release\snapshot-common.o obj\release\spaces.o obj\rel
+ease\store-buffer.o obj\release\string-search.o obj\release\string-stream.o obj\release\strtod.o obj
+\release\stub-cache.o obj\release\token.o obj\release\transitions.o obj\release\type-info.o obj\rele
+ase\unicode.o obj\release\utils.o obj\release\v8-counters.o obj\release\v8.o obj\release\v8conversio
+
+
+ns.o obj\release\v8threads.o obj\release\v8utils.o obj\release\variables.o obj\release\version.o obj
+\release\win32-math.o obj\release\zone.o obj\release\libraries.o obj\release\experimental-libraries.
+o obj\release\snapshot-empty.o
+
+
+ -lwinmm -lws2_32 -Wl,--out-implib,libv8.a
+Creating library file: libv8.a
+
+obj\release\ia32\stub-cache-ia32.o:stub-cache-ia32.cc:(.text$_ZN2v88internal21KeyedLoadStubCompiler1
+8CompileLoadElementENS0_6HandleINS0_3MapEEE+0x2a): undefined reference to `vtable for v8::internal::
+KeyedLoadFastElementStub'
+
+obj\release\ic.o:ic.cc:(.text$_ZN2v88internal11KeyedLoadIC29GetElementStubWithoutMapCheckEbNS0_12Ele
+mentsKindENS0_19KeyedAccessGrowModeE+0x21): undefined reference to `vtable for v8::internal::KeyedLo
+adFastElementStub'
+collect2: ld returned 1 exit status
+scons: *** [v8.dll] Error 1
+scons: building terminated because of errors.
+
+
+
+stub-cache-ia32.o:stub-cache-ia32.cc
+
+
+
+src/ia32/code-stubs-ia32.h
+
+
+CompileLoadElement  HandleINS
+
+GetElementStubWithoutMapCheck
+
+
+ElementsKind KeyedAccessGrowMode
+
+
+src/SConstruct
+
+ndeostaje
+
+full-codegen-ia32.cc
+
+
+src/ia32/assembler-ia32.cc
+src/ia32/builtins-ia32.cc
+src/ia32/code-stubs-ia32.cc
+src/ia32/codegen-ia32.cc
+src/ia32/cpu-ia32.cc
+src/ia32/debug-ia32.cc
+src/ia32/deoptimizer-ia32.cc
+src/ia32/disasm-ia32.cc:
+src/ia32/frames-ia32.cc
+src/ia32/full-codegen-ia32.cc
+src/ia32/ic-ia32.cc
+src/ia32/lithium-codegen-ia32.cc
+src/ia32/lithium-gap-resolver-ia32.cc
+src/ia32/lithium-ia32.cc
+src/ia32/macro-assembler-ia32.cc
+src/ia32/regexp-macro-assembler-ia32.cc
+src/ia32/simulator-ia32.cc  <<<<<
+src/ia32/stub-cache-ia32.cc
+
+
+dupli
+
+FullCodeGenerator
+VisitForTypeofValue
+
+
+
+Creating library file: libv8.a
+obj\release\ia32\stub-cache-ia32.o:stub-cache-ia32.cc:(.text$_ZN2v88internal21KeyedLoadStubCompiler1
+8CompileLoadElementENS0_6HandleINS0_3MapEEE+0x2a): undefined reference to `vtable for v8::internal::
+KeyedLoadFastElementStub'
+
+obj\release\ic.o:ic.cc:(.text$_ZN2v88internal11KeyedLoadIC29GetElementStubWithoutMapCheckEbNS0_12Ele
+mentsKindENS0_19KeyedAccessGrowModeE+0x21): undefined reference to `vtable for v8::internal::KeyedLoadFastElementStub'
+collect2: ld returned 1 exit status
+scons: *** [v8.dll] Error 1
+scons: building terminated because of errors.
+
+
+
+full-codegen-ia32.cc
+
+
+? KeyedLoadFastElementStub ??????????????????
+
+KeyedAccessGrowMode
+
+
+GetElementStubWithoutMapCheck
+
+
+
+ponovo iskljuèio d8 ! ne treba mi to
+
+
+
+$ grep -r "KeyedLoadFastElementStub" *
+arm/code-stubs-arm.cc:void KeyedLoadFastElementStub::InitializeInterfaceDescriptor(
+arm/stub-cache-arm.cc:    Handle<Code> stub = KeyedLoadFastElementStub(
+code-stubs-hydrogen.cc:void CodeStubGraphBuilder<KeyedLoadFastElementStub>::BuildCodeStub() {
+code-stubs-hydrogen.cc:Handle<Code> KeyedLoadFastElementStub::GenerateCode() {
+code-stubs-hydrogen.cc:  CodeStubGraphBuilder<KeyedLoadFastElementStub> builder(this);
+code-stubs.h:class KeyedLoadFastElementStub : public HydrogenCodeStub {
+code-stubs.h:  KeyedLoadFastElementStub(bool is_js_array, ElementsKind elements_kind) {
+code-stubs.h:  DISALLOW_COPY_AND_ASSIGN(KeyedLoadFastElementStub);
+hydrogen.h:  friend class KeyedLoadFastElementStub;
+ia32/code-stubs-ia32.cc:void KeyedLoadFastElementStub::InitializeInterfaceDescriptor(
+ia32/stub-cache-ia32.cc:    Handle<Code> stub = KeyedLoadFastElementStub(
+ic.cc:  //  return KeyedLoadFastElementStub(is_js_array, elements_kind).GetCode();
+x64/code-stubs-x64.cc:void KeyedLoadFastElementStub::InitializeInterfaceDescriptor(
+x64/stub-cache-x64.cc:    Handle<Code> stub = KeyedLoadFastElementStub(
+
+
+
+code-stubs-hydrogen.cc èitav dan !!
+
+
+
+
+
+CREATE OR REPLACE FUNCTION fibonacci(n integer)
+ RETURNS integer  LANGUAGE plcoffee IMMUTABLE STRICT
+AS $function$
+fibonacci = (x)->
+  return 0 if x == 0
+  return 1 if x == 1
+  return fibonacci(x-1) + fibonacci(x-2)
+return fibonacci n
+$function$;
+
+
+
+------
+postgres 9.1.6
+
+export CFLAGS="-m32 -DWIN32"
+export CXXFLAGS=$CFLAGS
+export CPPFLAGS=$CFLAGS
+
+export LDFLAGS=-m32
+export INCLUDES="-Ic:/github/dist/include"
+./configure --prefix=/opt/postgres/9.1 --build=win32
+
+
+
+http://archives.postgresql.org/pgsql-hackers/2011-11/txtRibqmPdzfl.txt
+
+$ patch -p1 < patch_mingw.patch
