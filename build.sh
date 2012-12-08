@@ -389,7 +389,7 @@ URL=http://ftp.postgresql.org/pub/source/v$VER/$PG_BZ2
 set_c_env
 set_dist
 
-if [ 1 -eq 0 ];then
+
 build_zlib
 
 download_postgresql_src
@@ -400,5 +400,5 @@ build_v8
 build_plv8
 
 test_plv8
-fi
+
 tar_plv8
