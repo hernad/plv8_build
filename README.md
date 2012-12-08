@@ -1,58 +1,24 @@
 # Build plv8 on windows
 
-Until now, unsuccessfull :(
+## Prerequisites
 
-## My build mingw build
+  - mingw64-32 environment - c:/ming32/
+  - Python 2.7 - c:/Python27
+  - scons 2.2.0 - scons build tool
+    
+## Build
 
+Supose we have installed EnterpriseDB 32bit PostgreSQL 9.2.2, postgres password: `postgres`, port `5433`
+Let's build plv8:
 
-## Mingw
-
-I already have installed: gcc 4.6.1
-
-The author (see references) doesn't recommend this msys/mingw version. 
-
-
-I have sucessfully compiled and produced:
-
-v8.dll, v8prepend.dll
-
-plv8.dll
-
-installed to bin/, lib/, shared/extensions to appropriate locations.
-
-but ... 
-
-    create extension plv8;
-
-causes server crash :(.
-
-I have tried with changing PATH variable during link process - the same results.
-
-All of my experiments was on 9.1.6 EnterpriseDB windows installation and the same source code postgersql tree.
-
-
-## Install plv8 binaries (mingw compiled) postgresonline
-
-
-the same result with binary build provided on postgresonline:
-
- - 32bit plv8/v8 dll binaries (for postgresql 9.2 beta, september 2012)
- - PostgreSQL 9.2.1
-
-The same result. command:
+    ./build.sh c:/PostgreSQL /c/opt/postgresql 9.2 2 32 postgres 5433
+  
+At the end, we should have plv8_9.2_32.tar.bz2  
  
-    create extension plv8;
+The same procedure for PostgreSQL 9.1.7, postgres password: `postgres`, port `5432`
+ 
+    ./build.sh c:/PostgreSQL /c/opt/postgresql 9.1 7 32 postgres 5432
 
-causes server crash.
-
-
-Dependency walker reports this strange missing dependencies:
-
-![crash](https://github.com/hernad/plv8_build/raw/master/img/plv8_crash_dependency.png)
-
-Tested on: Windows XP SP3, 32bit
-
-# Notes
 
 # References
 
