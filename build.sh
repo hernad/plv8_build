@@ -363,6 +363,7 @@ echo "Project location: http://github.com/hernad/plv8_build" >> $README
 cd $PG_DEPLOY_DIR/$PG_VER_MAJOR
 echo `pwd`
 
+rm $CUR_DIR/plv8_${PG_VER_MAJOR}_${PG_ARCH}.tar.bz2
 CMD="tar -cvjf $CUR_DIR/plv8_${PG_VER_MAJOR}_${PG_ARCH}.tar.bz2  bin/libstdc*.dll bin/libgcc*.dll bin/v8*.dll bin/d8.exe lib/plv8.dll "
 CMD="$CMD share/extension/plv8* share/extension/plcoffee* share/extension/plls* README_PLV8.txt"
 echo $CMD
@@ -389,7 +390,7 @@ URL=http://ftp.postgresql.org/pub/source/v$VER/$PG_BZ2
 set_c_env
 set_dist
 
-
+if [ 0 -eq -1 ];then
 build_zlib
 
 download_postgresql_src
@@ -400,5 +401,5 @@ build_v8
 build_plv8
 
 test_plv8
-
+fi
 tar_plv8

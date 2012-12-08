@@ -2,10 +2,10 @@
 
 ## Prerequisites
 
-  - mingw64-32 environment - c:/ming32/
-  - Python 2.7 - c:/Python27
-  - scons 2.2.0 - scons build tool
-  - msys Git - c:/Program Files/Git/bin/git.exe
+  - [mingw64-32](http://mingw-w64.sourceforge.net/) environment - `c:/ming32`
+  - [Python 2.7](http://www.activestate.com/activepython/downloads) - `c:/Python27`
+  - [scons 2.2.0](http://sourceforge.net/projects/scons/files/scons/2.2.0/scons-2.2.0-setup.exe/download) - scons build tool, `c:/Python27/Scripts/scons.py`
+  - [msys Git](http://code.google.com/p/msysgit/downloads/list) - `c:/Program Files/Git/bin/git.exe`
     
 ## Build
 
