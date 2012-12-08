@@ -350,6 +350,8 @@ function test_plv8 {
 
 function tar_plv8 {
 
+cd $CUR_DIR
+
 README="$PG_DEPLOY_DIR/$PG_VER_MAJOR/README_PLV8.txt"
 
 echo "untar to $PG_DEPLOY_DIR/$PG_VER_MAJOR $PG_ARCH bit" > $README
@@ -358,16 +360,16 @@ echo "tar xvfj plv8_${PG_VER_MAJOR}_${PG_ARCH}.tar.bz2" >> $README
 echo "" >> $README
 echo "Project location: http://github.com/hernad/plv8_build" >> $README
 
-CMD="cd $PG_DEPLOY_DIR/$PG_VER_MAJOR"
-echo $CMD
-$CMD
+cd $PG_DEPLOY_DIR/$PG_VER_MAJOR
 echo `pwd`
-CMD="tar -cvfj $CUR_DIR/plv8_${PG_VER_MAJOR}_${PG_ARCH}.tar.bz2 -C $PG_DEPLOY_DIR/$PG_VER_MAJOR bin/libstdc*.dll bin/libgcc*.dll bin/v8*.dll bin/d8.exe lib/plv8.dll "
+
+CMD="tar -cvjf $CUR_DIR/plv8_${PG_VER_MAJOR}_${PG_ARCH}.tar.bz2  bin/libstdc*.dll bin/libgcc*.dll bin/v8*.dll bin/d8.exe lib/plv8.dll "
 CMD="$CMD share/extension/plv8* share/extension/plcoffee* share/extension/plls* README_PLV8.txt"
 echo $CMD
 $CMD
 err_exit "tar plv8_${PG_VER_MAJOR}_${PG_ARCH}.tar.bz2"
 
+cd $CUR_DIR
 }
 
 
@@ -387,6 +389,7 @@ URL=http://ftp.postgresql.org/pub/source/v$VER/$PG_BZ2
 set_c_env
 set_dist
 
+if [ 1 -eq 0 ];then
 build_zlib
 
 download_postgresql_src
@@ -397,4 +400,5 @@ build_v8
 build_plv8
 
 test_plv8
+fi
 tar_plv8
