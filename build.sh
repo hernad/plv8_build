@@ -1,11 +1,16 @@
 #!/bin/bash
 
 PG_DEPLOY_DIR=/c/PostgreSQL
+PG_INSTALL=/c/opt/postgres
+
 PG_VER_MAJOR=9.1
 PG_VER_MINOR=7
+# 32bit
+PG_ARCH=32
+
 
 DIST=c:/dist
-PG_INSTALL=/c/opt/postgres
+
 MINGW=/mingw
 
 GIT_EXE=C:/Program\ Files/git/bin/git.exe
@@ -16,23 +21,14 @@ GIT_PLV8=git://github.com/hernad/plv8.git
 PYTHON=/c/Python27
 SCONS=$PYTHON/Scripts/scons.py
 
+CMD_ARGS=$@
+
 export PGPASSWORD=postgres
 PG_PORT=5432
 
 echo "postgres user password: $PG_PASSWORD, postgres server port: $PG_PORT"
 
-
-# 32bit
-PG_ARCH=32
-
-VER=${PG_VER_MAJOR}.${PG_VER_MINOR}
-
-PG_BASEF=postgresql-${VER}
-PG_BZ2=${PG_BASEF}.tar.bz2
-URL=http://ftp.postgresql.org/pub/source/v$VER/$PG_BZ2
-
 CUR_DIR=`pwd`
-
 
 # ----- start common --------
 function err_exit {
@@ -76,7 +72,6 @@ if [ ! -f $SCONS ]; then
   err_exit "$SCONS not exists (download and install scons 2.2.0 ) -"
 fi
 
-
 if [ ! -f "$GIT_EXE" ]; then
   test 1 -eq 0
   err_exit "$GIT_EXE not exists (download and install scons 2.2.0 ) -"
@@ -92,22 +87,75 @@ fi
 
 }
 
-function set_ver_params {
+function usage {
+   echo "  usage : $0 --help"
+   echo "        : $0 --default"
+   echo "        : $0 [PG_DEPLOY_DIR] [PG_DEV_DIR] [PG_VER_MAJOR] [PG_VER_MINOR] [PG_ARCH]" 
+   echo "example : $0 c:/PostgreSQL /c/opt/postgresql 9.2 2 32" 
 
-  if [ "$1" != "" ]; then
-      PG_VER_MAJOR=$1
-      shift
-  fi
-	  
-  if [ "$1" != "" ]; then
-      PG_VER_MINOR=$2
-      shift
-  fi
-	
+   echo "-"
+   echo "your command args was: $CMD_ARGS"
 }
 
 
+function set_params {
 
+if [ "$1" == "" ]; then
+  usage
+  exit 1
+fi
+if [ "$1" != "" ]; then
+   PG_DEPLOY_DIR=$1
+   shift
+else
+   usage
+   exit 1
+fi
+
+if [ "$1" != "" ]; then
+   PG_INSTALL=$1
+   shift
+else
+   echo "PG_INSTALL ?"
+   usage
+   exit 1
+fi
+
+
+if [ "$1" != "" ]; then
+   PG_VER_MAJOR=$1
+   shift
+else
+   echo "PG_VER_MAJOR ?"
+   usage
+   exit 1
+fi
+
+if [ "$1" != "" ]; then
+   PG_VER_MINOR=$1
+   shift
+else
+   echo "PG_VER_MINOR ?"
+   usage
+   exit 1
+fi
+
+
+if [ "$1" != "" ]; then
+   PG_ARCH=$1
+   shift
+else
+   echo "PG_ARCH ?"
+   usage
+   exit 1
+fi
+
+if [ "$1" != "" ]; then
+   usage
+   exit 1
+fi
+
+}
 
 
 function set_c_env {
@@ -243,7 +291,6 @@ cp -v libv8*.a $DIST/lib
 
 }
 
-
 function build_plv8 {
 
    cd $CUR_DIR
@@ -258,7 +305,6 @@ function build_plv8 {
    
    err_exit "build & install plv8"
 
- 
 }
 
 
@@ -283,12 +329,22 @@ function test_plv8 {
   echo "plv8 test success :)"
 }
 
+# ------------------- start -----------------
 prerequisites
+
+if [ "$1" == "--default" ]; then
+   echo "using default params ..."
+else
+   set_params $@
+fi
+VER=${PG_VER_MAJOR}.${PG_VER_MINOR}
+PG_BASEF=postgresql-${VER}
+PG_BZ2=${PG_BASEF}.tar.bz2
+URL=http://ftp.postgresql.org/pub/source/v$VER/$PG_BZ2
+
 
 set_c_env
 set_dist
-
-set_ver_params $1 $2
 
 build_zlib
 
