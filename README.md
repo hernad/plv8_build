@@ -56,7 +56,6 @@ Tested on: Windows XP SP3, 32bit
 
 # References
 
-## plv8 build
 
   - http://www.postgresonline.com/journal/archives/261-Building-PLV8JS-and-PLCoffee-for-Windows-using-MingW64-w64-w32.html
   - http://code.google.com/p/plv8js/issues/detail?id=29
@@ -65,5 +64,4 @@ Tested on: Windows XP SP3, 32bit
 
   - http://evadeflow.com/2011/03/compiling-v8-on-windows-7
   - http://code.google.com/p/v8/issues/detail?id=1596i
-
 
