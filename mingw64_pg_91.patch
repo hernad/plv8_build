@@ -1,0 +1,85 @@
+diff --git a/config/ac_func_accept_argtypes.m4 b/config/ac_func_accept_argtypes.m4
+index 1e77179..a82788d 100644
+--- a/config/ac_func_accept_argtypes.m4
++++ b/config/ac_func_accept_argtypes.m4
+@@ -46,7 +46,7 @@ AC_DEFUN([AC_FUNC_ACCEPT_ARGTYPES],
+  [AC_CACHE_VAL(ac_cv_func_accept_arg1,dnl
+   [AC_CACHE_VAL(ac_cv_func_accept_arg2,dnl
+    [AC_CACHE_VAL(ac_cv_func_accept_arg3,dnl
+-    [for ac_cv_func_accept_return in 'int' 'unsigned int PASCAL' 'SOCKET'; do
++    [for ac_cv_func_accept_return in 'int' 'unsigned int PASCAL' 'SOCKET WSAAPI'; do
+       for ac_cv_func_accept_arg1 in 'int' 'unsigned int' 'SOCKET'; do
+        for ac_cv_func_accept_arg2 in 'struct sockaddr *' 'const struct sockaddr *' 'void *'; do
+         for ac_cv_func_accept_arg3 in 'int' 'size_t' 'socklen_t' 'unsigned int' 'void'; do
+diff --git a/configure b/configure
+index 58fea90..4118caf 100755
+--- a/configure
++++ b/configure
+@@ -18808,7 +18808,7 @@ else
+      if test "${ac_cv_func_accept_arg3+set}" = set; then
+   $as_echo_n "(cached) " >&6
+ else
+-      for ac_cv_func_accept_return in 'int' 'unsigned int PASCAL' 'SOCKET'; do
++      for ac_cv_func_accept_return in 'int' 'unsigned int PASCAL' 'SOCKET WSAAPI'; do
+       for ac_cv_func_accept_arg1 in 'int' 'unsigned int' 'SOCKET'; do
+        for ac_cv_func_accept_arg2 in 'struct sockaddr *' 'const struct sockaddr *' 'void *'; do
+         for ac_cv_func_accept_arg3 in 'int' 'size_t' 'socklen_t' 'unsigned int' 'void'; do
+diff --git a/src/include/c.h b/src/include/c.h
+index 0391860..040990f 100644
+--- a/src/include/c.h
++++ b/src/include/c.h
+@@ -58,17 +58,22 @@
+ #endif
+ #include "postgres_ext.h"
+ 
+-#if _MSC_VER >= 1400 || defined(WIN64)
+-#define errcode __msvc_errcode
+-#include <crtdefs.h>
+-#undef errcode
+-#endif
+-
+ #include <stdio.h>
+ #include <stdlib.h>
+ #include <string.h>
+ #include <stddef.h>
+ #include <stdarg.h>
++
++/* __MINGW64_VERSION_MAJOR is related to both 32/64 bit gcc compiles by
++ * mingw-w64, however it gots defined only after
++ * #include <any standard mingw header>
++ */
++#if _MSC_VER >= 1400 || defined(__MINGW64_VERSION_MAJOR)
++#define errcode __msvc_errcode
++#include <crtdefs.h>
++#undef errcode
++#endif
++
+ #ifdef HAVE_STRINGS_H
+ #include <strings.h>
+ #endif
+diff --git a/src/include/port/win32.h b/src/include/port/win32.h
+index 34f4004..d4acfae 100644
+--- a/src/include/port/win32.h
++++ b/src/include/port/win32.h
+@@ -31,7 +31,7 @@
+  * The Mingw64 headers choke if this is already defined - they
+  * define it themselves.
+  */
+-#if !defined(WIN64) || defined(WIN32_ONLY_COMPILER)
++#if !defined(__MINGW64_VERSION_MAJOR) || defined(WIN32_ONLY_COMPILER)
+ #define _WINSOCKAPI_
+ #endif
+ #include <winsock2.h>
+diff --git a/src/port/getaddrinfo.c b/src/port/getaddrinfo.c
+index db19878..60c522f 100644
+--- a/src/port/getaddrinfo.c
++++ b/src/port/getaddrinfo.c
+@@ -329,7 +329,7 @@ gai_strerror(int errcode)
+ 			return "Not enough memory";
+ #endif
+ #ifdef EAI_NODATA
+-#if !defined(WIN64) && !defined(WIN32_ONLY_COMPILER)	/* MSVC/WIN64 duplicate */
++#if !defined(__MINGW64_VERSION_MAJOR) && !defined(WIN32_ONLY_COMPILER)	/* MSVC/WIN64 duplicate */
+ 		case EAI_NODATA:
+ 			return "No host data of that type was found";
+ #endif
