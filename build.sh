@@ -1,5 +1,34 @@
 #!/bin/bash
 
+
+function prerequisites {
+
+which $PYTHON
+err_exit "$PYTHON not exists \(download active python 2.7 \) -"
+
+if [ ! -f "$SCONS" ]; then
+  err_exit "$SCONS not exists \(download and install scons 2.2.0 \) -"
+fi
+
+}
+
+prerequisites
+
+function set_ver_params {
+
+  if [ "$1" != "" ]; then
+      VER_MAJOR=$1
+      shift
+  fi
+	  
+  if [ "$1" != "" ]; then
+      VER_MINOR=$2
+      shift
+  fi
+	
+}
+
+
 VER_MAJOR=9.1
 VER_MINOR=7
 
@@ -18,11 +47,11 @@ PG_ARCH=32
 
 VER=${VER_MAJOR}.${VER_MINOR}
 
-BASEF=postgresql-${VER}
-BZ2=${BASEF}.tar.bz2
-BZ2=postgresql-$VER.tar.bz2
-URL=http://ftp.postgresql.org/pub/source/v$VER/$BZ2
+PG_BASEF=postgresql-${VER}
+PG_BZ2=${PG_BASEF}.tar.bz2
+URL=http://ftp.postgresql.org/pub/source/v$VER/$PG_BZ2
 
+CUR_DIR=`pwd`
 
 function err_exit {
 
@@ -69,7 +98,8 @@ function build_zlib {
 
   echo "building zlib"
   
-  tar xvfj zlib-1.2.5.tar.bz2
+  echo "untar zlib bz2"
+  tar xfj zlib-1.2.5.tar.bz2
   cd zlib-1.2.5
   #./configure --prefix=$DIST
   
@@ -82,35 +112,52 @@ function build_zlib {
    
   err_exit "zlib build"
 
+  cd $CUR_DIR
 }
 
 function download_postgresql_src {
 
-if [ ! -f $BZ2 ]; then
-  wget $URL -O $BZ2
-fi
+cd $CUR_DIR
 
-tar xvfj $BZ2
-cd $BASEF
+if [ ! -f "$PG_BZ2" ]; then
+  echo "not exist: $CUR_DIR/$PG_BZ2 .. going to download"
+  wget $URL -O $PG_BZ2
+  err_exit "postgresql $PG_BZ2 download not successfull !"
+fi
 
 }
+
 function build_postgresql {
 
-if [ "$VER_MAJOR" == "9.1" ]; then
-   patch -p1 < mingw64_pg_91.patch 
+cd $CUR_DIR
+
+echo "untar $PG_BZ2"
+#tar xfj $PG_BZ2
+cd $PG_BASEF
+
+
+if [[ "$VER_MAJOR" == "9.1" ]]; then
+   patch -p1 < ../mingw64_pg_91.patch  
+   err_exit "patch $VER_MAJOR"
+else
+   echo "no patch needed for $VER_MAJOR"
 fi
 
-./configure --prefix=$PG_INSTALL/$VER_MAJOR --build=win$PG_ARCH
+./configure --prefix=$PG_INSTALL/$VER_MAJOR 
+#--build=mingw win$PG_ARCH
+
+err_exit "configure postgresql"
 
 make 
 make install
 
+cd ..
 }
 
 
-
-
 function build_v8 {
+
+cd $CUR_DIR
 
 git clone $GIT_V8
 cd v8
@@ -132,19 +179,26 @@ cp -v include/*.h $DIST/include
 cp -v v8*.dll $DIST/bin
 cp -v libv8*.a $DIST/lib
 
+cd ..
 }
 
 
 function build_pv8 {
 
+   cd $CUR_DIR
+   cd $PG_BASEF
+   
    git clone $PLV8_GIT
    cd plv8
    ./install.sh
 
+   cd ..
 }
 
 set_c_env
 set_dist
+
+set_ver_params $1 $2
 
 build_zlib
 
@@ -153,7 +207,5 @@ build_postgresql
 
 #build_v8
 
-download_postgresql_src
-build_postgresql
 
 #build_pv8
