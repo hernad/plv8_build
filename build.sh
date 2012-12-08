@@ -228,7 +228,7 @@ function build_postgresql {
 cd $CUR_DIR
 
 echo "untar $PG_BZ2"
-#tar xfj $PG_BZ2
+tar xfj $PG_BZ2
 cd $PG_BASEF
 
 
