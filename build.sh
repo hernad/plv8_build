@@ -1,7 +1,7 @@
 #!/bin/bash
 
-VER_MAJOR=9.2
-VER_MINOR=2
+VER_MAJOR=9.1
+VER_MINOR=7
 
 DIST=c:/dist
 PG_INSTALL=/c/opt/postgres
@@ -16,19 +16,12 @@ SCONS=$PYTHOM/Scripts/scons.py
 # 32bit
 PG_ARCH=32
 
-
-
 VER=${VER_MAJOR}.${VER_MINOR}
 
 BASEF=postgresql-${VER}
 BZ2=${BASEF}.tar.bz2
 BZ2=postgresql-$VER.tar.bz2
 URL=http://ftp.postgresql.org/pub/source/v$VER/$BZ2
-
-wget $URL -O $BZ2
-
-tar xvfj $BZ2
-cd $BASEF
 
 
 function err_exit {
@@ -42,12 +35,22 @@ fi
 
 function set_c_env {
 
-export CFLAGS="-m32 -DWIN32"
+export CFLAGS="-m$PG_ARCH -DWIN$PG_ARCH"
 export CXXFLAGS=$CFLAGS
 export CPPFLAGS=$CFLAGS
-export LDFLAGS=-m32
+export CCFLAGS=$CFLAGS
+export LDFLAGS=-m$PG_ARCH
+
 
 export INCLUDES="-I$DIST/include"
+
+echo "setup mingw64 environment architecture: $PG_ARCH bit"
+
+echo "CFLAGS=$CFLAGS \(the same: CXXFLAGS, CPPFLAGS, CCFLAGS\)"
+
+echo "LDFLAGS=$LDFLAGS"
+
+echo "INCLUDES=$INCLUDES"
 
 }
 
@@ -58,28 +61,39 @@ function set_dist {
   mkdir -p $DIST/include
   mkdir -p $DIST/lib
 
+  echo "shared libs destination, dist=$DIST /bin, /include, /lib"
 }
 
 
 function build_zlib {
 
-
-  tar xvj zlib-1.2.5.tar.bz2
+  echo "building zlib"
+  
+  tar xvfj zlib-1.2.5.tar.bz2
   cd zlib-1.2.5
-  ./configure --prefix=$DIST
-  make install
+  #./configure --prefix=$DIST
+  
+  make -f win32/Makefile.gcc
+  
+  
+  cp zlib*.h zconf.h $DIST/include
+  cp libz*.a $DIST/lib
+  cp zlib*.dll $DIST/bin
    
-  error_exit "zlib build"
+  err_exit "zlib build"
 
 }
 
+function download_postgresql_src {
 
+if [ ! -f $BZ2 ]; then
+  wget $URL -O $BZ2
+fi
 
-set_c_env
-set_dist
-build_zlib
+tar xvfj $BZ2
+cd $BASEF
 
-
+}
 function build_postgresql {
 
 if [ "$VER_MAJOR" == "9.1" ]; then
@@ -89,7 +103,6 @@ fi
 ./configure --prefix=$PG_INSTALL/$VER_MAJOR --build=win$PG_ARCH
 
 make 
-
 make install
 
 }
@@ -130,8 +143,17 @@ function build_pv8 {
 
 }
 
-build_v8
+set_c_env
+set_dist
+
+build_zlib
+
+download_postgresql_src
 build_postgresql
 
+#build_v8
 
-build_pv8
+download_postgresql_src
+build_postgresql
+
+#build_pv8
