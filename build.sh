@@ -30,6 +30,16 @@ wget $URL -O $BZ2
 tar xvfj $BZ2
 cd $BASEF
 
+
+function err_exit {
+
+if [ $? != 0 ]; then
+   echo "$1 unsuccessfull !"
+   exit 1
+fi
+
+}
+
 function set_c_env {
 
 export CFLAGS="-m32 -DWIN32"
@@ -50,8 +60,25 @@ function set_dist {
 
 }
 
+
+function build_zlib {
+
+
+  tar xvj zlib-1.2.5.tar.bz2
+  cd zlib-1.2.5
+  ./configure --prefix=$DIST
+  make install
+   
+  error_exit "zlib build"
+
+}
+
+
+
 set_c_env
 set_dist
+build_zlib
+
 
 function build_postgresql {
 
@@ -85,16 +112,15 @@ fi
 
 $SCONS mode=release arch=$arch toolchain=gcc importenv=PATH library=shared I_know_I_should_build_with_GYP=yes 
 
-if [ $? != 0 ]; then
-   echo "v8 build unsuccessfull"
-   exit 1
-fi
+err_exit "v8 build"
+
 
 cp -v include/*.h $DIST/include
 cp -v v8*.dll $DIST/bin
 cp -v libv8*.a $DIST/lib
 
 }
+
 
 function build_pv8 {
 
