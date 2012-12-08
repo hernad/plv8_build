@@ -90,8 +90,8 @@ fi
 function usage {
    echo "  usage : $0 --help"
    echo "        : $0 --default"
-   echo "        : $0 [PG_DEPLOY_DIR] [PG_DEV_DIR] [PG_VER_MAJOR] [PG_VER_MINOR] [PG_ARCH]" 
-   echo "example : $0 c:/PostgreSQL /c/opt/postgresql 9.2 2 32" 
+   echo "        : $0 [PG_DEPLOY_DIR] [PG_DEV_DIR] [PG_VER_MAJOR] [PG_VER_MINOR] [PG_ARCH] [PGPASSWORD] [PG_PORT]" 
+   echo "example : $0 c:/PostgreSQL /c/opt/postgresql 9.2 2 32 postgres 5432" 
 
    echo "-"
    echo "your command args was: $CMD_ARGS"
@@ -146,6 +146,24 @@ if [ "$1" != "" ]; then
    shift
 else
    echo "PG_ARCH ?"
+   usage
+   exit 1
+fi
+
+if [ "$1" != "" ]; then
+   PGPASSWORD=$1
+   shift
+else
+   echo "PGPASSWORD ?"
+   usage
+   exit 1
+fi
+
+if [ "$1" != "" ]; then
+   PG_PORT=$1
+   shift
+else
+   echo "PG_PORT ?"
    usage
    exit 1
 fi
@@ -314,7 +332,7 @@ function test_plv8 {
 
   export PATH=$PG_DEPLOY_DIR/$PG_VER_MAJOR/bin:$PG_DEPLOY_DIR/$PG_VER_MAJOR/lib:$PATH
   echo "PGPASSWORD=$PGPASSWORD"
-  psql -p $PG_PORT -U postgres -h localhost < plv8_test.sql > test_plv8.log
+  $PG_DEPLOY_DIR/$PG_VER_MAJOR/bin/psql -p $PG_PORT -U postgres -h localhost < plv8_test.sql > test_plv8.log
   
   cat test_plv8.log
   
@@ -329,6 +347,30 @@ function test_plv8 {
   echo "plv8 test success :)"
 }
 
+
+function tar_plv8 {
+
+README="$PG_DEPLOY_DIR/$PG_VER_MAJOR/README_PLV8.txt"
+
+echo "untar to $PG_DEPLOY_DIR/$PG_VER_MAJOR $PG_ARCH bit" > $README
+echo "command:" >> $README
+echo "tar xvfj plv8_${PG_VER_MAJOR}_${PG_ARCH}.tar.bz2" >> $README
+echo "" >> $README
+echo "Project location: http://github.com/hernad/plv8_build" >> $README
+
+CMD="cd $PG_DEPLOY_DIR/$PG_VER_MAJOR"
+echo $CMD
+$CMD
+echo `pwd`
+CMD="tar -cvfj $CUR_DIR/plv8_${PG_VER_MAJOR}_${PG_ARCH}.tar.bz2 -C $PG_DEPLOY_DIR/$PG_VER_MAJOR bin/libstdc*.dll bin/libgcc*.dll bin/v8*.dll bin/d8.exe lib/plv8.dll "
+CMD="$CMD share/extension/plv8* share/extension/plcoffee* share/extension/plls* README_PLV8.txt"
+echo $CMD
+$CMD
+err_exit "tar plv8_${PG_VER_MAJOR}_${PG_ARCH}.tar.bz2"
+
+}
+
+
 # ------------------- start -----------------
 prerequisites
 
@@ -342,7 +384,7 @@ PG_BASEF=postgresql-${VER}
 PG_BZ2=${PG_BASEF}.tar.bz2
 URL=http://ftp.postgresql.org/pub/source/v$VER/$PG_BZ2
 
-
+if [ 1 -eq 0 ]; then
 set_c_env
 set_dist
 
@@ -354,4 +396,9 @@ build_postgresql
 build_v8
 
 build_plv8
+fi
+
 test_plv8
+
+
+tar_plv8
