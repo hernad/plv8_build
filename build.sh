@@ -316,7 +316,7 @@ function build_plv8 {
    git_clone_or_pull $GIT_PLV8 plv8 
  
    cd plv8
-   rm plv8.dll plv8_${PG_VER_MAJOR}_${PG_ARCH}.dll
+   rm plv8.dll plv8_${PG_VER_MAJOR}_${PG_ARCH}.dll *.o *.control
    CMD="./install.sh $PG_DEPLOY_DIR $PG_INSTALL $PG_VER_MAJOR $PG_ARCH  $DIST $MINGW"
    echo $CMD
    $CMD

@@ -9,7 +9,7 @@
     
 ## Build
 
-Supose we have installed EnterpriseDB 32bit PostgreSQL 9.2.2, postgres password: `postgres`, port `5433`, installed to `c:/PostgreSQL/9.2`
+Supose we have installed [EnterpriseDB 32bit MSVC PostgreSQL 9.2.2]](http://www.enterprisedb.com/products-services-training/pgdownload#windows), postgres password: `postgres`, port `5433`, installed to `c:/PostgreSQL/9.2`
 Let's build plv8:
 
     ./build.sh c:/PostgreSQL /c/opt/postgresql 9.2 2 32 postgres 5433
@@ -24,7 +24,7 @@ The same procedure for PostgreSQL 9.1.7, postgres password: `postgres`, port `54
 
 ## Usage
 
-    cd c:/PostgreSQL/9.1 # location of my [EnterpriseDB](http://www.enterprisedb.com/products-services-training/pgdownload#windows) PostgreSQL 9.1 Windows 32bit installation
+    cd c:/PostgreSQL/9.1 # location of my EnterpriseDB PostgreSQL 9.1 Windows 32bit installation
     tar xvfj plv8_9.1_32.tar.bz2
 
 
