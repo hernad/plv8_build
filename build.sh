@@ -384,7 +384,6 @@ PG_BASEF=postgresql-${VER}
 PG_BZ2=${PG_BASEF}.tar.bz2
 URL=http://ftp.postgresql.org/pub/source/v$VER/$PG_BZ2
 
-if [ 1 -eq 0 ]; then
 set_c_env
 set_dist
 
@@ -396,9 +395,6 @@ build_postgresql
 build_v8
 
 build_plv8
-fi
 
 test_plv8
-
-
 tar_plv8
