@@ -330,8 +330,9 @@ function test_plv8 {
  
   cd $CUR_DIR
 
-  export PATH=$PG_DEPLOY_DIR/$PG_VER_MAJOR/bin:$PG_DEPLOY_DIR/$PG_VER_MAJOR/lib:$PATH
+  export PATH=$PATH:$PG_DEPLOY_DIR/$PG_VER_MAJOR/bin:$PG_DEPLOY_DIR/$PG_VER_MAJOR/lib
   echo "PGPASSWORD=$PGPASSWORD"
+  #echo $PATH
   $PG_DEPLOY_DIR/$PG_VER_MAJOR/bin/psql -p $PG_PORT -U postgres -h localhost < plv8_test.sql > test_plv8.log
   
   cat test_plv8.log
