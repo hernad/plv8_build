@@ -3,7 +3,7 @@
 ## Prerequisites
 
   1. [mingw64-32](http://mingw-w64.sourceforge.net/) environment - `c:/ming32`
-     - already prepared environment here[^1]:
+     - already prepared environment here<sup>[1]</sup>:
         - [ming32](http://www.bostongis.com/postgisstuff/ming32.zip)
         - [ming64](http://www.bostongis.com/postgisstuff/ming64.zip)
 
@@ -11,7 +11,7 @@
   3. [scons 2.2.0](http://sourceforge.net/projects/scons/files/scons/2.2.0/scons-2.2.0-setup.exe/download) - scons build tool, `c:/Python27/Scripts/scons.py`
   4. [msys Git](http://code.google.com/p/msysgit/downloads/list) - `c:/Program Files/Git/bin/git.exe`
    
-[^1]: provided by [Leo Hsu and Regina Obe](http://www.postgresonline.com/journal/authors/1-Leo-Hsu-and-Regina-Obe)
+[1]: provided by [Leo Hsu and Regina Obe](http://www.postgresonline.com/journal/authors/1-Leo-Hsu-and-Regina-Obe)
  
 
 ## Build
