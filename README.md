@@ -2,16 +2,16 @@
 
 ## Prerequisites
 
-  - [mingw64-32](http://mingw-w64.sourceforge.net/) environment - `c:/ming32`
-     - already prepared environment here(*):
+  1. [mingw64-32](http://mingw-w64.sourceforge.net/) environment - `c:/ming32`
+     - already prepared environment here[^1]:
         - [ming32](http://www.bostongis.com/postgisstuff/ming32.zip)
         - [ming64](http://www.bostongis.com/postgisstuff/ming64.zip)
 
-  - [Python 2.7](http://www.activestate.com/activepython/downloads) - `c:/Python27`
-  - [scons 2.2.0](http://sourceforge.net/projects/scons/files/scons/2.2.0/scons-2.2.0-setup.exe/download) - scons build tool, `c:/Python27/Scripts/scons.py`
-  - [msys Git](http://code.google.com/p/msysgit/downloads/list) - `c:/Program Files/Git/bin/git.exe`
-    
-(*) provided by [Leo Hsu and Regina Obe](http://www.postgresonline.com/journal/authors/1-Leo-Hsu-and-Regina-Obe)
+  2. [Python 2.7](http://www.activestate.com/activepython/downloads) - `c:/Python27`
+  3. [scons 2.2.0](http://sourceforge.net/projects/scons/files/scons/2.2.0/scons-2.2.0-setup.exe/download) - scons build tool, `c:/Python27/Scripts/scons.py`
+  4. [msys Git](http://code.google.com/p/msysgit/downloads/list) - `c:/Program Files/Git/bin/git.exe`
+   
+[1] provided by [Leo Hsu and Regina Obe](http://www.postgresonline.com/journal/authors/1-Leo-Hsu-and-Regina-Obe)
  
 
 ## Build
